@@ -54,6 +54,9 @@ function operate (a,o,b) {
 
 function show (e) {
     value = convert(this.classList[this.classList.length - 1]);
+    if(value === "." && !Number.isInteger(selection[selection.length - 1])) {
+        return;
+    }
     if (value!=="clear" && value!==" = ") {
         if (value===".") {
             pointCount++;
@@ -83,7 +86,7 @@ function show (e) {
         selection.push(value);
     } else {
         if (value===" = ") {
-            if(!o && isNumber(selection[selection.length]) || selection[selection.length-1] === " + " || selection[selection.length-1] === " - " || selection[selection.length-1] === " x " || selection[selection.length-1] === " / ") {
+            if(!o || selection[selection.length-1] === " + " || selection[selection.length-1] === " - " || selection[selection.length-1] === " x " || selection[selection.length-1] === " / ") {
                 return;
             }
             b = parseFloat(selection.slice(selection.indexOf(o) + 1).join(''));
@@ -91,7 +94,7 @@ function show (e) {
             selection = [];
             selection.push(r);
             count = 0;
-            if(r.isInteger()) {
+            if(Number.isInteger(r)) {
                 pointCount = 0;
             }
             a = 0;
